@@ -110,7 +110,7 @@ async def handleRoot(request: Request):
             contact_list=[]
         ))
     user_id = db.getUserIdByAuthID(request.session['userinfo']['sub'])[0]
-    user_id = 1
+    # user_id = 1
     
     authToken = token_hex(16)
     headers = {

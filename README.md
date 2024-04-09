@@ -17,23 +17,4 @@ typing-extensions==3.10.0.0
 
 ### Retorno:
 
-```JSON
-{
-    "given_name": "Marcos", 
-    "family_name": "Viana",
-    "nickname": "marcos.viana.91",
-    "name": "Marcos Viana",
-    "picture": "https://lh3.googleusercontent.com/a/ACg8ocIlPVkjav-AFn5t57bf5GQvSMlb8d4MykMyVnllTxb4pfEV=s96-c",
-    "locale": "pt-BR",
-    "updated_at": "2024-03-13T20:10:13.172Z",
-    "email": "marcos.viana.91@gmail.com",
-    "email_verified": true,
-    "iss": "https://dev-jps52bjwplkvzprb.us.auth0.com/",
-    "aud": "nEIxbEwCHfGCo6kjGp58u0wRDhofjoQ9",
-    "iat": 1710360614,
-    "exp": 1710396614,
-    "sub": "google-oauth2|111599641520295750253",
-    "sid": "goAvH-YZc3S3_HvudexEAtiiU8K_D11n",
-    "nonce": "UELLrbvAAGnMz3SNs27U"
-}
 ```

@@ -14,8 +14,8 @@ from ..DataBaseManager import DB_Manager
 db = DB_Manager()
 
 def getUserIdByAuthId(request: Request) -> int:
-    return 1
-    # user_id = db.getUserIdByAuthID(auth_id=request.session['userinfo']['sub'])[0]
+    # return 1
+    user_id = db.getUserIdByAuthID(auth_id=request.session['userinfo']['sub'])[0]
     return user_id
 
 async def get_context(
