@@ -1,0 +1,8 @@
+crud_fastapi/db.json
+.env
+**/__pycache__
+tests
+crud_fastapi/__pycache__/
+crud_fastapi/templates/build
+crud_fastapi/db populate.json.json
+crud_fastapi/utilities/populate.py
