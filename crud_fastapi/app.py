@@ -18,7 +18,8 @@ from authlib.integrations.starlette_client import OAuth
 from urllib.parse import quote_plus, urlencode
 
 from crud_fastapi.utilities.DataBaseManager import DB_Manager, User
-from crud_fastapi.utilities.ConnectionManager import WS_Manager
+# from crud_fastapi.utilities.ConnectionManager import WS_Manager
+from crud_fastapi.utilities.GraphQL.mutations import websocket_list
 from crud_fastapi.utilities.GraphQL import graphql_app
 # from crud_fastapi.utilities.VerifyToken import VerifyToken
 from crud_fastapi.utilities.templatesRender import Render
@@ -41,6 +42,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     AUDIENCE: str = ''
     FRONT_END_HOME: str
+    ENVIROMENT: str
 
 
 settings = Settings()
@@ -57,7 +59,6 @@ oauth.register(
 )
 
 db = DB_Manager()
-websocket_list = WS_Manager()
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=settings.SECRET_KEY)
@@ -102,13 +103,13 @@ async def handleRoot(request: Request):
     # print(request.session['userinfo']['sub'])
     user_id = db.getUserIdByAuthID(request.session['userinfo']['sub'])
     if (len(user_id) == 0):
-        print(db.createNewUser(
+        print(f"Usuário criado: {db.createNewUser(
             auth_id=request.session['userinfo']['sub'],
             name=request.session['userinfo']['name'],
             photo=request.session['userinfo']['picture'],
             email=request.session['userinfo']['email'],
             contact_list=[]
-        ))
+        )}")
     user_id = db.getUserIdByAuthID(request.session['userinfo']['sub'])[0]
     # user_id = 1
     
@@ -160,22 +161,25 @@ async def logout(request: Request):
     return response
 
 
-@app.websocket("/ws/{user_name}")
-async def websocket_endpoint(websocket: WebSocket, user_name: str):
-    print('WebSoket with user:', db.getUserIdByAuthID(websocket.session['userinfo']['sub'])[0])
-    await websocket_list.connect(websocket, user_name.lower())
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    authToken = db.getUserIdByAuthID(websocket.session['userinfo']['sub'])[0]
+    # authToken = "1"
+    print('WebSoket with user:', authToken)
+    await websocket_list.connect(websocket, authToken)
     try:
         while True:
             data:dict = await websocket.receive_json()
-            try: 
-                authToken = data.get("connectionParams").get("authToken")
-                print('Token de autenticação WS: ', authToken, (authToken == websocket.cookies['authToken']))
-            except:
-                print("Payload: ", data)
-                websocket.send_json(data)
-            await websocket_list.broadcast(data, user_name.lower())
+            # try: 
+            #     authToken = data.get("connectionParams").get("authToken")
+            #     print('Token de autenticação WS: ', authToken, (authToken == websocket.cookies['authToken']))
+            # except:
+            #     print("Payload: ", data)
+            #     websocket.send_json(data)
+            # await websocket.send_json(data)
+            await websocket_list.broadcast(event=data, user=authToken)
     except WebSocketDisconnect:
-        websocket_list.disconnect(websocket, user_name.lower())
+        websocket_list.disconnect(websocket, authToken)
     return None
 
 

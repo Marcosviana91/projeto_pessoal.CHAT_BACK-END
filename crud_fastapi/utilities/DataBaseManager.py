@@ -12,7 +12,7 @@ class DB_Manager:
     PAGINATION = 10
 
     def __init__(self) -> None:
-        self.engine = TinyDB('./crud_fastapi/db.json')
+        self.engine = TinyDB('./crud_fastapi/data/db.json')
 
     def createNewUser(self, auth_id: str, name: str, photo: str | None, email: str, **kwargs) -> int:
         user = User(auth_id=auth_id, name=name, photo=photo,

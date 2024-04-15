@@ -1,0 +1,12 @@
+uvicorn[standard]
+fastapi[all]
+pydantic
+pydantic-settings
+httpx
+itsdangerous
+authlib
+sqlalchemy
+tinydb
+strawberry-graphql
+jinja2
+jwt

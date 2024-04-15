@@ -15,7 +15,7 @@ class UserNotification(BaseModel):
     sender: str
     title: str
     content: str
-    
+
 
 class UserSessionInfo(BaseModel):
     user_id: int | None = None
@@ -23,7 +23,7 @@ class UserSessionInfo(BaseModel):
     status: str = "off"
     status_msg: str = "Nada ainda"
     chat_list: list[int] = []
-    notifications: list = []
+    notifications: list[UserNotification] = []
     
 
 class CHATS_MSG(BaseModel):

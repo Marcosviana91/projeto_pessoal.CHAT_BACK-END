@@ -1,4 +1,5 @@
-crud_fastapi/db.json
+crud_fastapi/data
+venv
 .env
 **/__pycache__
 tests
